@@ -10,7 +10,7 @@ const isMock = () => process.env.APP_MODE === 'mock';
 function expectedPasscode(): string | null {
   const fromEnv = process.env.SIGNUP_PASSCODE?.trim();
   if (fromEnv) return fromEnv;
-  return isMock() ? 'aisurfers' : null;
+  return isMock() ? 'mock-passcode' : null;
 }
 
 /** 가입 입력 검사. 비밀번호 비교는 여기(서버)에서만 한다. */
