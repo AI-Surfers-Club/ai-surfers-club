@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import { uploadImage } from '@/lib/images/actions';
 import { imageProblem, MAX_IMAGES } from '@/lib/images/rules';
+import { shrinkForUpload } from '@/lib/images/shrink';
 
 type Props = { images: string[]; onChange: (next: string[]) => void; error?: string };
 
@@ -35,7 +36,8 @@ export function ImageUploader({ images, onChange, error }: Props) {
     const urls: string[] = [];
     for (const f of take) {
       const fd = new FormData();
-      fd.set('file', f);
+      const blob = await shrinkForUpload(f);
+      fd.set('file', blob, f.name);
       const r = await uploadImage(fd);
       if (r.ok) urls.push(r.url);
       else msgs.push(r.error);

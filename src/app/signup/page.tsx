@@ -19,7 +19,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Searc
   return (
     <main className="main">
       <div className="center-card">
-        <h1 className="serif serif-ko">AI Surfers Club에 오신 걸 환영해요</h1>
+        <h1 className="serif serif-ko">AI Surfers Club에<br />오신걸 환영해요</h1>
         <p className="form-sub">임직원만 가입할 수 있어요. 커뮤니티에서 안내받은 비밀번호를 입력해주세요.</p>
         <div className="acct"><span className="avatar" aria-hidden="true">G</span>{user.account.email}</div>
         <SignupForm next={next} />

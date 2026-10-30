@@ -1,6 +1,9 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { formatDate, getServiceDetail } from '@/lib/services/detail';
+import { getStore } from '@/lib/store';
+import { SITE_NAME, SITE_OG_IMAGE } from '@/lib/site';
 import { ImageGallery } from '@/components/detail/image-gallery';
 import { OwnerActions, SavedToast } from '@/components/detail/owner-actions';
 import { currentUser } from '@/lib/auth/session';
@@ -11,6 +14,22 @@ export const dynamic = 'force-dynamic';
 
 type Params = Promise<{ id: string }>;
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+/** 공유 미리보기: 서비스 이름·한 줄 소개, 대표 이미지가 올린 사진이면 그 사진 (아니면 사이트 기본 이미지) */
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { id } = await params;
+  const s = await getStore().getService(id);
+  if (!s) return {};
+  const title = `${s.name} · ${SITE_NAME}`;
+  const cover = s.images[0];
+  const images = cover && /^https?:\/\//i.test(cover) ? [{ url: cover, alt: `${s.name} 대표 이미지` }] : [SITE_OG_IMAGE];
+  return {
+    title,
+    description: s.tagline,
+    openGraph: { type: 'article', siteName: SITE_NAME, locale: 'ko_KR', title, description: s.tagline, images },
+    twitter: { card: 'summary_large_image', title, description: s.tagline, images },
+  };
+}
 
 export default async function ServiceDetailPage({ params, searchParams }: { params: Params; searchParams: SearchParams }) {
   const { id } = await params;

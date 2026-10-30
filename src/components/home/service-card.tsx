@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import type { ServiceCardData } from '@/lib/services/queries';
-import { domainOf } from '@/lib/services/queries';
 import { CardTilt } from './card-tilt';
 
 export function CoverImage({ name, src }: { name: string; src?: string }) {
@@ -19,7 +18,7 @@ export function ServiceCard({ service, filterName }: { service: ServiceCardData;
         </Link>
         <div className="card-info">
           <div>
-            <div className="meta-top"><span>{filterName ?? ''}</span><span>{domainOf(service.url)}</span></div>
+            <div className="meta-top"><span>{filterName ?? ''}</span></div>
             <Link href={`/services/${service.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
               <div className="card-title serif" data-testid="card-title">{service.name}</div>
             </Link>

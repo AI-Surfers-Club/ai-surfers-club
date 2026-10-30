@@ -30,11 +30,3 @@ export async function communityStats() {
   const makers = new Set(services.map((s) => s.authorId)).size;
   return { serviceCount: services.length, makerCount: makers, latest: services[0]?.name ?? null };
 }
-
-export function domainOf(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '');
-  } catch {
-    return url;
-  }
-}

@@ -3,11 +3,15 @@ import type { ReactNode } from 'react';
 import './globals.css';
 import { SiteHeader } from '@/components/layout/site-header';
 import { SideLabel, Ticker } from '@/components/layout/ticker';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'AI Surfers Club',
-  description: '임직원이 AI로 직접 만든 서비스를 소개하고 함께 써보는 곳',
+  title: SITE_NAME,
+  description: SITE_DESCRIPTION,
   icons: { icon: '/favicon.svg' },
+  metadataBase: new URL(SITE_URL),
+  openGraph: { type: 'website', siteName: SITE_NAME, locale: 'ko_KR', title: SITE_NAME, description: SITE_DESCRIPTION, images: [SITE_OG_IMAGE] },
+  twitter: { card: 'summary_large_image', title: SITE_NAME, description: SITE_DESCRIPTION, images: [SITE_OG_IMAGE] },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

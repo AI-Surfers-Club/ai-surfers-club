@@ -43,8 +43,7 @@
 }
 .card-img .default-img + * { display: none; }
 .card-info { padding: var(--space-card-padding); min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; }
-.meta-top { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; margin-bottom: 8px; }
-.meta-top span:last-child { text-transform: lowercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meta-top { display: flex; gap: 8px; min-height: 1lh; font-weight: 700; margin-bottom: 8px; }
 .card-title {
   font-size: var(--size-card-title); line-height: 1.15;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
