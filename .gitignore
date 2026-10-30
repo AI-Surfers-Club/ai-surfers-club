@@ -1,0 +1,23 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+.env
+.env.local
+test-results/
+playwright-report/
+.gatekit/runs/
+.gatekit/jobs/
+.vercel
+.env*.local
+.DS_Store
+
+# 공개 저장소에 올리지 않는 로컬 전용 파일 (기획 문서·테스트에 비밀번호가 있음)
+spec/
+tests/
+e2e/
+playwright.config.ts
+vitest.config.ts
+.claude/
+.gatekit/
