@@ -1,0 +1,43 @@
+/* spec/tokens.json 의 값을 CSS 변수로 옮긴 유일한 곳. 색 값은 여기에만 쓴다. */
+:root {
+  --color-blue: #1A22FF;
+  --color-white: #FFFFFF;
+  --color-blue-soft: #E8E9FF;
+  --color-text-deep: #111A99;
+  --color-image-placeholder: #EEEEEE;
+
+  --font-display: 'Playfair Display', 'Hahmlet', serif;
+  --font-display-ko: 'Hahmlet', serif;
+  --font-body: 'Inter', 'Pretendard', sans-serif;
+  --font-body-ko: 'Pretendard', sans-serif;
+
+  --size-base: 11px;
+  --size-small: 9px;
+  --size-logo: 22px;
+  --size-card-title: 28px;
+  --size-hero: 80px;
+
+  --space-grid-unit: 20px;
+  --space-gutter: 24px;
+  --space-card-padding: 12px;
+  --space-hero-padding-y: 48px;
+
+  --border-line: 1.5px solid var(--color-blue);
+  --border-tag: 1px solid var(--color-blue);
+
+  --radius-card: 14px;
+  --radius-button: 10px;
+  --radius-pill: 20px;
+
+  --layout-header-height: 60px;
+  --layout-max-width: 1400px;
+
+  /* 투명도가 필요한 파랑은 토큰에서 만든다 */
+  --blue-45: color-mix(in srgb, var(--color-blue) 45%, transparent);
+  --blue-30: color-mix(in srgb, var(--color-blue) 30%, transparent);
+  --blue-18: color-mix(in srgb, var(--color-blue) 18%, transparent);
+}
+
+@media (max-width: 639px) {
+  :root { --space-gutter: 16px; }
+}

@@ -1,0 +1,34 @@
+.overlay {
+  position: fixed; inset: 0; z-index: 200; padding: 16px;
+  background: var(--blue-18);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal {
+  background: var(--color-white); border: var(--border-line); border-radius: var(--radius-card);
+  width: 100%; max-width: 440px; padding: 24px; max-height: 90vh; overflow: auto;
+  font-family: var(--font-body-ko); cursor: auto;
+}
+.modal-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.modal-head h2 { font-size: 30px; line-height: 1.15; }
+.modal .x { font-size: 22px; font-weight: 700; line-height: 1; padding: 2px 6px; }
+.modal-field { margin-bottom: 18px; }
+.modal-field label { display: block; font-weight: 700; font-size: 12px; margin-bottom: 6px; }
+.modal-field input {
+  width: 100%; border: var(--border-line); border-radius: var(--radius-button);
+  padding: 10px 12px; font-size: 14px; font-family: var(--font-body-ko); color: var(--color-blue); outline: none;
+}
+.modal-field input:focus { box-shadow: 0 0 0 3px var(--blue-18); }
+.modal-field.invalid input { border-width: 3px; }
+.modal-err { display: flex; gap: 6px; align-items: center; margin-top: 6px; font-weight: 700; font-size: 12px; }
+.modal-err::before {
+  content: '!'; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--color-blue); color: var(--color-white);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 10px;
+}
+.modal-note { font-size: 12px; opacity: .7; margin-bottom: 16px; }
+.modal-banner {
+  border: 3px solid var(--color-blue); border-radius: var(--radius-button);
+  padding: 10px 12px; font-weight: 700; font-size: 13px; margin-bottom: 14px;
+}
+.modal-foot { display: flex; justify-content: space-between; align-items: center; }
+.lnk { font-weight: 700; font-size: 12px; text-decoration: underline; }

@@ -1,0 +1,15 @@
+.fm-add { display: flex; gap: 8px; margin-bottom: 12px; }
+.fm-add input, .frow input {
+  flex: 1; border: var(--border-line); border-radius: var(--radius-button);
+  padding: 8px 10px; font-size: 13px; color: var(--color-blue); font-family: var(--font-body-ko); outline: none;
+}
+.fm-list { list-style: none; }
+.frow {
+  display: flex; align-items: center; gap: 10px;
+  border-top: 1px solid var(--blue-30); padding: 10px 0; font-size: 13px;
+}
+.frow .nm { flex: 1; font-weight: 700; }
+.frow .cnt { opacity: .6; font-size: 11px; }
+.fm-empty { padding: 16px 0; border-top: 1px solid var(--blue-30); font-size: 14px; }
+.fm-text { font-size: 14px; line-height: 1.6; margin-bottom: 18px; }
+.fm-actions { display: flex; justify-content: flex-end; gap: 10px; }

@@ -1,0 +1,43 @@
+/* 헤더 */
+.site-header {
+  position: fixed; top: 0; left: 0; width: 100%;
+  height: var(--layout-header-height);
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 0 var(--space-gutter);
+  border-bottom: var(--border-line);
+  background: var(--color-white);
+  z-index: 100;
+}
+.logo {
+  display: flex; align-items: center; gap: 8px;
+  font-size: var(--size-logo); text-decoration: none; flex-shrink: 0;
+}
+.logo svg { display: block; flex-shrink: 0; }
+.logo span { white-space: nowrap; }
+.nav { display: flex; gap: 16px; align-items: center; font-weight: 700; }
+
+/* 하단 티커 */
+.ticker-wrap {
+  position: fixed; bottom: 0; left: 0; width: 100%;
+  background: var(--color-blue); color: var(--color-white);
+  padding: 8px 0; overflow: hidden; z-index: 101;
+}
+.ticker { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
+.ticker span { padding: 0 40px; font-weight: 700; text-transform: uppercase; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ticker { animation: none; } }
+
+/* 세로 사이드 라벨 */
+.side-label {
+  position: fixed; right: 12px; top: 50%;
+  transform: translateY(-50%) rotate(90deg); transform-origin: center right;
+  white-space: nowrap; font-weight: 700; letter-spacing: .2em; font-size: 10px; z-index: 10;
+}
+
+@media (max-width: 639px) {
+  .side-label { display: none; }
+  .logo { font-size: 17px; gap: 6px; }
+  .logo svg { width: 24px; height: 24px; }
+  .nav { gap: 8px; }
+  .hide-m { display: none !important; }
+}
