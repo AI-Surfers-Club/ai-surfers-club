@@ -40,7 +40,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
       }
     />
   ) : (
-    <Hero title={<>Surf the<br />New Wave of AI.</>} side={<HeroSearch initial={query.q} />} />
+    <Hero title={<>Surf the New Wave<br />of AI.</>} side={<HeroSearch initial={query.q} />} />
   );
 
   const chips = [
