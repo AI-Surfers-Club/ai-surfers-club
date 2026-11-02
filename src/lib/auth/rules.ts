@@ -16,8 +16,10 @@ function expectedPasscode(): string | null {
 /** 가입 입력 검사. 비밀번호 비교는 여기(서버)에서만 한다. */
 export function checkSignup(input: SignupInput, passcode = expectedPasscode()): SignupErrors {
   const errors: SignupErrors = {};
-  if (!input.passcode) errors.passcode = '비밀번호를 입력해주세요';
-  else if (!passcode || input.passcode !== passcode) errors.passcode = '비밀번호가 올바르지 않습니다';
+  // 붙여넣을 때 딸려오는 앞뒤 공백은 무시한다
+  const typed = input.passcode.trim();
+  if (!typed) errors.passcode = '비밀번호를 입력해주세요';
+  else if (!passcode || typed !== passcode) errors.passcode = '비밀번호가 올바르지 않습니다';
   if (!input.teamName.trim()) errors.teamName = '팀 이름을 입력해주세요';
   if (!input.displayName.trim()) errors.displayName = '이름을 입력해주세요';
   return errors;

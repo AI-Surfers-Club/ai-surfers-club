@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { completeSignup, type SignupState } from '@/lib/auth/actions';
 
@@ -18,13 +18,17 @@ const initial: SignupState = { errors: {}, values: { teamName: '', displayName: 
 export function SignupForm({ next }: { next: string }) {
   const [state, action] = useActionState(completeSignup, initial);
   const e = state.errors;
+  // 비밀번호가 틀렸을 때만 이 칸을 비운다. 다른 칸 오류로는 지우지 않는다
+  const [passcode, setPasscode] = useState('');
+  useEffect(() => {
+    if (state.errors.passcode) setPasscode('');
+  }, [state]);
   return (
     <form action={action} noValidate>
       <input type="hidden" name="next" value={next} />
       <div className={`auth-field${e.passcode ? ' invalid' : ''}`}>
         <label htmlFor="passcode">임직원 비밀번호 *</label>
-        {/* 틀리면 이 칸만 비운다 (key가 바뀌면 새 입력칸) */}
-        <input id="passcode" key={e.passcode ?? 'ok'} name="passcode" type="password" placeholder="비밀번호" autoComplete="off" aria-invalid={!!e.passcode} />
+        <input id="passcode" name="passcode" type="password" placeholder="비밀번호" autoComplete="off" value={passcode} onChange={(ev) => setPasscode(ev.target.value)} aria-invalid={!!e.passcode} />
         {e.passcode && <p className="field-err" role="alert">{e.passcode}</p>}
       </div>
       <div className={`auth-field${e.teamName ? ' invalid' : ''}`}>
