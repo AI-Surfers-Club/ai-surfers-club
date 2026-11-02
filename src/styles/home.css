@@ -3,11 +3,13 @@
   position: relative; overflow: hidden;
   padding: var(--space-hero-padding-y) var(--space-gutter);
   border-bottom: var(--border-line);
-  display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px;
   min-height: 260px;
 }
 .hero > *:not(.hero-wave) { position: relative; z-index: 1; }
 .hero h1 { font-size: var(--size-hero); line-height: .85; max-width: 800px; }
+/* 슬로건은 항상 두 줄: 자리가 모자라면 제목 대신 검색창이 아래로 내려간다 */
+.hero h1:not(.ko) { white-space: nowrap; }
 .hero h1.ko { line-height: 1.1; letter-spacing: -0.02em; font-family: var(--font-display-ko); font-style: normal; }
 .hero-wave { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: block; }
 .hero-side { text-align: right; font-weight: 700; font-size: 13px; line-height: 1.5; font-family: var(--font-body-ko); display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
@@ -64,6 +66,6 @@
 @media (max-width: 639px) {
   .grid { grid-template-columns: 1fr; }
   .hero { flex-direction: column; align-items: flex-start; }
-  .hero h1 { font-size: 44px; }
+  .hero h1 { font-size: min(44px, 12.5vw); }
   .hero-side { text-align: left; align-items: flex-start; }
 }
