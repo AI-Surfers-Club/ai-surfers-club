@@ -14,7 +14,8 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title: SITE_NAME, description: SITE_DESCRIPTION, images: [SITE_OG_IMAGE] },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+// modal: About Us 처럼 지금 화면 위에 띄우는 팝업 자리 (app/@modal)
+export default function RootLayout({ children, modal }: { children: ReactNode; modal: ReactNode }) {
   return (
     <html lang="ko">
       <head>
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <SiteHeader />
         {children}
+        {modal}
         <SideLabel />
         <Ticker />
       </body>

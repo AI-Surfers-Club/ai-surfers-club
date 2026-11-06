@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { currentUser } from '@/lib/auth/session';
 import { getStore } from '@/lib/store';
+import { isCharacter } from '@/lib/avatars/characters';
 import { checkProfile, type ProfileErrors } from './rules';
 
 export type ProfileResult = { ok: boolean; errors: ProfileErrors; message?: string };
@@ -15,6 +16,10 @@ export async function updateMyProfile(form: FormData): Promise<ProfileResult> {
   const input = { teamName: String(form.get('teamName') ?? ''), displayName: String(form.get('displayName') ?? '') };
   const errors = checkProfile(input);
   if (Object.keys(errors).length) return { ok: false, errors };
+  // 캐릭터: 빈 값이면 기본 캐릭터로 되돌린다. 목록에 있는 번호만 받는다
+  const raw = String(form.get('character') ?? '').trim();
+  const character = raw === '' ? null : Number(raw);
+  if (character !== null && !isCharacter(character)) return { ok: false, errors: {}, message: '캐릭터를 다시 골라주세요.' };
 
   const user = await currentUser();
   if (user.state !== 'member') return { ok: false, errors: {}, message: '로그인한 회원만 바꿀 수 있어요' };
@@ -24,6 +29,7 @@ export async function updateMyProfile(form: FormData): Promise<ProfileResult> {
       ...user.profile,
       teamName: input.teamName.trim(),
       displayName: input.displayName.trim(),
+      character,
     });
   } catch {
     return { ok: false, errors: {}, message: '저장하지 못했습니다. 다시 시도해주세요.' };

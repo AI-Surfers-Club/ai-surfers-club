@@ -15,6 +15,20 @@
 .logo svg { display: block; flex-shrink: 0; }
 .logo span { white-space: nowrap; }
 .nav { display: flex; gap: 16px; align-items: center; font-weight: 700; }
+/* 맨 오른쪽 계정 자리: 로그인 전엔 사람 아이콘, 로그인 후엔 내 캐릭터 */
+.account {
+  position: relative; flex-shrink: 0;
+  width: 36px; height: 36px; padding: 0; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: var(--border-line); background: var(--color-white); color: var(--color-blue);
+  cursor: pointer; overflow: visible;
+}
+.account:hover { background: var(--color-blue); color: var(--color-white); }
+.account .crew-art { width: 30px; height: 30px; border-radius: 50%; }
+.account-dot {
+  position: absolute; top: -2px; right: -2px; width: 10px; height: 10px;
+  border-radius: 50%; background: var(--color-blue); border: 2px solid var(--color-white);
+}
 
 /* 하단 티커 */
 .ticker-wrap {

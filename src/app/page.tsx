@@ -9,6 +9,8 @@ import { GridSkeleton } from '@/components/home/grid-states';
 import { homeHref, parseHomeQuery, toListOptions } from '@/lib/services/search';
 import { currentUser } from '@/lib/auth/session';
 import { getStore } from '@/lib/store';
+import { ProfileTicket } from '@/components/about/profile-ticket';
+import { defaultCharacter } from '@/lib/avatars/characters';
 import '@/components/home/home-tools.css';
 
 export const dynamic = 'force-dynamic';
@@ -28,16 +30,27 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
     store.listServices(options).then((l) => l.length).catch(() => null),
   ]);
 
+  // 작성자가 About Us 에 있으면 그 사람의 프로필 티켓을 제목 옆에 붙인다
+  const ticket = author?.aboutGroup ? (
+    <ProfileTicket
+      displayName={author.displayName}
+      teamName={author.teamName}
+      character={author.character ?? defaultCharacter(author.id)}
+      group={author.aboutGroup}
+    />
+  ) : null;
+
   const hero = author ? (
     <Hero
       korean
-      title={<>{author.displayName}님의<br />서비스</>}
-      side={
-        <div className="hero-side">
-          <span>{author.teamName}</span>
-          <Link className="pill" href={homeHref(query, { author: null })}>전체 보기로 돌아가기</Link>
-        </div>
+      eyebrow={
+        <Link className="hero-back" href={homeHref(query, { author: null })}>
+          <span aria-hidden="true">←</span><span>전체 서비스</span>
+        </Link>
       }
+      title={<>{author.displayName}님의<br />서비스</>}
+      side={ticket ? undefined : <div className="hero-side"><span>{author.teamName}</span></div>}
+      badge={ticket}
     />
   ) : (
     <Hero title={<>Surf<br />the New Wave of AI.</>} side={<HeroSearch initial={query.q} />} />

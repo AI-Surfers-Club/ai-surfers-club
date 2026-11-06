@@ -6,7 +6,13 @@ export type Profile = {
   email: string;
   teamName: string;
   displayName: string;
+  /** 고른 서퍼스 크루 캐릭터 번호 (About Us 카드). 고르지 않았으면 null — 계정마다 다른 기본 캐릭터가 나온다 */
+  character?: number | null;
+  /** About Us 에 나오는 그룹. 관리자가 정한다. null 이면 About Us 에 나오지 않는다 */
+  aboutGroup?: AboutGroup | null;
 };
+
+export type AboutGroup = 'surfer' | 'crew';
 
 export type Service = {
   id: string;

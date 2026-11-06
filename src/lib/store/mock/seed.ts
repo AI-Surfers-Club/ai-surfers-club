@@ -13,15 +13,28 @@ export const MOCK_ACCOUNTS = [
   { id: 'u-new', email: 'new.surfer@gmail.com', label: 'new.surfer@gmail.com', note: '처음 오는 사람' },
 ] as const;
 
+// About Us 시안용 회원 (서비스는 없다). 마지막 줄은 아직 About Us 에 안 올린 회원 — 관리자의 '멤버 추가' 후보
+const SAMPLE_MEMBERS: [string, string, string, Profile['aboutGroup']][] = [
+  ['p07', '오지민', '고객경험팀', 'surfer'], ['p08', '윤태오', '재무팀', 'surfer'], ['p09', '강예린', '브랜드디자인팀', 'surfer'],
+  ['p10', '서지훈', '영업1팀', 'surfer'], ['p11', '임소율', '법무팀', 'surfer'], ['p12', '조현우', '물류운영팀', 'surfer'],
+  ['p13', '배나연', '교육팀', 'surfer'], ['p14', '신우진', '보안팀', 'surfer'], ['p15', '권다은', '상품기획팀', 'surfer'],
+  ['p16', '황민석', '데이터팀', 'surfer'], ['p17', '문채원', '홍보팀', 'surfer'], ['p18', '장건우', '연구개발팀', 'surfer'],
+  ['p19', '송하린', '총무팀', 'surfer'], ['p20', '백시우', '품질관리팀', 'surfer'],
+  ['c01', '노은채', 'AI Surfers Club', 'crew'], ['c02', '류지환', 'AI Surfers Club', 'crew'], ['c03', '전수아', 'AI Surfers Club', 'crew'],
+  ['c04', '남기현', 'AI Surfers Club', 'crew'], ['c05', '유다인', 'AI Surfers Club', 'crew'],
+  ['p21', '이도현', '구매팀', null], ['p22', '김나래', '재무팀', null], ['p23', '박시온', '디자인팀', null],
+];
+
 export function seedProfiles(): Profile[] {
   return [
-    { id: 'u1', email: 'seoyeon.kim@gmail.com', displayName: '김서연', teamName: 'AX전략팀' },
-    { id: 'u2', email: 'junho.park@gmail.com', displayName: '박준호', teamName: '디지털마케팅팀' },
-    { id: 'u3', email: 'haeun.lee@gmail.com', displayName: '이하은', teamName: '경영관리팀' },
-    { id: 'u4', email: 'minjae.choi@gmail.com', displayName: '최민재', teamName: '콘텐츠기획팀' },
-    { id: 'u5', email: 'yuna.jung@gmail.com', displayName: '정유나', teamName: '인사팀' },
-    { id: 'u6', email: 'doyun.han@gmail.com', displayName: '한도윤', teamName: 'IT셀' },
-    { id: 'admin', email: MOCK_ADMIN_EMAIL, displayName: '운영자', teamName: 'AI Surfers Club' },
+    { id: 'u1', email: 'seoyeon.kim@gmail.com', displayName: '김서연', teamName: 'AX전략팀', aboutGroup: 'surfer' },
+    { id: 'u2', email: 'junho.park@gmail.com', displayName: '박준호', teamName: '디지털마케팅팀', aboutGroup: 'surfer' },
+    { id: 'u3', email: 'haeun.lee@gmail.com', displayName: '이하은', teamName: '경영관리팀', aboutGroup: 'surfer' },
+    { id: 'u4', email: 'minjae.choi@gmail.com', displayName: '최민재', teamName: '콘텐츠기획팀', aboutGroup: 'surfer' },
+    { id: 'u5', email: 'yuna.jung@gmail.com', displayName: '정유나', teamName: '인사팀', aboutGroup: 'surfer' },
+    { id: 'u6', email: 'doyun.han@gmail.com', displayName: '한도윤', teamName: 'IT셀', aboutGroup: 'surfer' },
+    { id: 'admin', email: MOCK_ADMIN_EMAIL, displayName: '운영자', teamName: 'AI Surfers Club', aboutGroup: 'crew' },
+    ...SAMPLE_MEMBERS.map(([id, displayName, teamName, aboutGroup]) => ({ id, email: `${id}@sample.surfers.club`, displayName, teamName, aboutGroup })),
   ];
 }
 

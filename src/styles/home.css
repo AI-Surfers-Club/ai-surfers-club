@@ -8,6 +8,19 @@
 }
 .hero > *:not(.hero-wave) { position: relative; z-index: 1; }
 .hero h1 { font-size: var(--size-hero); line-height: .85; max-width: 800px; }
+.hero-title { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+/* 작성자 화면: 제목 위 작은 뒤로가기 */
+.hero-back {
+  display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+  font-weight: 700; font-size: 13px; font-family: var(--font-body-ko);
+}
+.hero-back span:first-child { transition: transform .2s; }
+.hero-back:hover span:last-child { text-decoration: underline; }
+.hero-back:hover span:first-child { transform: translateX(-3px); }
+/* 작성자 화면: 위 여백을 줄이고 높이는 내용만큼 */
+.hero.compact { min-height: 0; padding-top: 20px; }
+/* 작성자 화면: 제목 왼쪽에 프로필 티켓 */
+.hero-title-row { display: flex; align-items: center; gap: 28px; }
 /* 슬로건은 항상 두 줄: 자리가 모자라면 제목 대신 검색창이 아래로 내려간다 */
 .hero h1:not(.ko) { white-space: nowrap; }
 .hero h1.ko { line-height: 1.1; letter-spacing: -0.02em; font-family: var(--font-display-ko); font-style: normal; }
@@ -68,4 +81,6 @@
   .hero { flex-direction: column; align-items: flex-start; }
   .hero h1 { font-size: min(44px, calc((100vw - 2 * var(--space-gutter)) / 8.5)); }
   .hero-side { text-align: left; align-items: flex-start; }
+  .hero-title-row { gap: 16px; }
+  .hero-title-row .ticket { width: 88px; }
 }

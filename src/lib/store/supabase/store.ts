@@ -9,7 +9,8 @@ type ServiceRow = {
   service_images: { path: string; position: number }[] | null;
   service_filters: { filter_id: string }[] | null;
 };
-type ProfileRow = { id: string; email: string; team_name: string; display_name: string };
+type ProfileRow = { id: string; email: string; team_name: string; display_name: string; character: number | null; about_group: 'surfer' | 'crew' | null };
+const PROFILE_COLS = 'id, email, team_name, display_name, character, about_group';
 
 const SERVICE_COLUMNS = 'id, author_id, name, tagline, description, url, created_at, updated_at, service_images(path, position), service_filters(filter_id)';
 
@@ -40,7 +41,7 @@ function toService(r: ServiceRow): Service {
   };
 }
 
-const toProfile = (r: ProfileRow): Profile => ({ id: r.id, email: r.email, teamName: r.team_name, displayName: r.display_name });
+const toProfile = (r: ProfileRow): Profile => ({ id: r.id, email: r.email, teamName: r.team_name, displayName: r.display_name, character: r.character, aboutGroup: r.about_group });
 
 function check<T>(res: { data: T; error: { message: string } | null }): T {
   if (res.error) throw new Error(res.error.message);
@@ -158,24 +159,24 @@ export function createStore(): DataStore {
     },
 
     async getProfile(id) {
-      const row = check(await db().from('profiles').select('id, email, team_name, display_name').eq('id', id).maybeSingle()) as ProfileRow | null;
+      const row = check(await db().from('profiles').select(PROFILE_COLS).eq('id', id).maybeSingle()) as ProfileRow | null;
       return row ? toProfile(row) : null;
     },
 
     async getProfileByEmail(email) {
-      const row = check(await db().from('profiles').select('id, email, team_name, display_name').eq('email', email).maybeSingle()) as ProfileRow | null;
+      const row = check(await db().from('profiles').select(PROFILE_COLS).eq('email', email).maybeSingle()) as ProfileRow | null;
       return row ? toProfile(row) : null;
     },
 
     async listProfiles() {
-      const rows = check(await db().from('profiles').select('id, email, team_name, display_name')) as ProfileRow[];
+      const rows = check(await db().from('profiles').select(PROFILE_COLS)) as ProfileRow[];
       return rows.map(toProfile);
     },
 
     async upsertProfile(p) {
       const row = check(await db().from('profiles').upsert({
-        id: p.id, email: p.email, team_name: p.teamName, display_name: p.displayName,
-      }).select('id, email, team_name, display_name').single()) as ProfileRow;
+        id: p.id, email: p.email, team_name: p.teamName, display_name: p.displayName, character: p.character ?? null, about_group: p.aboutGroup ?? null,
+      }).select(PROFILE_COLS).single()) as ProfileRow;
       return toProfile(row);
     },
 

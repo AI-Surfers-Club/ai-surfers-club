@@ -32,3 +32,19 @@
 }
 .modal-foot { display: flex; justify-content: space-between; align-items: center; }
 .lnk { font-weight: 700; font-size: 12px; text-decoration: underline; }
+
+/* 내 캐릭터 고르기: 서퍼스 크루 12명 (About Us 카드와 같은 그림) */
+.pf-chars { border: 0; }
+.modal-label { display: block; font-weight: 700; font-size: 12px; margin-bottom: 6px; }
+.pf-char-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.pf-char {
+  position: relative; display: block; aspect-ratio: 1; overflow: hidden; cursor: pointer;
+  border: 1px solid var(--blue-30); border-radius: var(--radius-button); background: var(--color-white);
+}
+.pf-char { color: var(--color-blue); }
+.pf-char .crew-art { position: absolute; inset: 4%; }
+.pf-char:hover { border-color: var(--color-blue); }
+.pf-char.on { border: 3px solid var(--color-blue); background: var(--color-blue-soft); }
+.pf-char:has(input:focus-visible) { outline: 2px dashed var(--color-blue); outline-offset: 2px; }
+.pf-photo-note { font-size: 12px; opacity: .7; margin-top: 8px; line-height: 1.5; }
+@media (max-width: 420px) { .pf-char-grid { grid-template-columns: repeat(4, 1fr); } }
