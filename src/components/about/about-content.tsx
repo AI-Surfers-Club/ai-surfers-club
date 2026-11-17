@@ -1,7 +1,7 @@
 import { HangingTeam, type Candidate, type Member } from './hanging-team';
 import { defaultCharacter } from '@/lib/avatars/characters';
 import { currentUser } from '@/lib/auth/session';
-import { getStore } from '@/lib/store';
+import { listProfiles, listServices } from '@/lib/services/queries';
 import type { AboutGroup, Profile } from '@/lib/store/types';
 
 // 줄 길이를 들쭉날쭉하게 섞어 매달린 높이가 리듬감 있게 보이도록
@@ -11,10 +11,9 @@ const byName = (a: Profile, b: Profile) => a.displayName.localeCompare(b.display
 
 /** About Us 본문: 전체 페이지(/about)와 팝업(@modal/(.)about)이 같이 쓴다 */
 export async function AboutContent() {
-  const store = getStore();
   const [all, profiles, user] = await Promise.all([
-    store.listServices({ sort: 'new' }).catch(() => []),
-    store.listProfiles().catch(() => [] as Profile[]),
+    listServices({ sort: 'new' }).catch(() => []),
+    listProfiles().catch(() => [] as Profile[]),
     currentUser().catch(() => ({ state: 'guest' as const })),
   ]);
   const admin = user.state === 'member' && user.admin;

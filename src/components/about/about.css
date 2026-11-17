@@ -86,6 +86,12 @@
 }
 .hang-more span:last-child { transition: transform .2s; }
 .hang-more:hover span:last-child { transform: translateX(3px); }
+/* 누른 뒤 화면이 바뀌기 전까지 도는 작은 원 */
+.hang-more-spin {
+  width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent;
+  animation: hang-more-spin .7s linear infinite;
+}
+@keyframes hang-more-spin { to { transform: rotate(360deg); } }
 .hang-empty { margin-top: 14px; font-size: 12px; font-family: var(--font-body-ko); opacity: .75; border-top: 1px solid currentColor; padding-top: 10px; }
 
 /* 앞면 전체를 덮는 투명 버튼(키보드용), 뒷면 오른쪽 위 되돌리기 버튼 */

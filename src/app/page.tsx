@@ -7,6 +7,7 @@ import { Toolbar } from '@/components/home/toolbar';
 import { ServiceGrid } from '@/components/home/service-grid';
 import { GridSkeleton } from '@/components/home/grid-states';
 import { homeHref, parseHomeQuery, toListOptions } from '@/lib/services/search';
+import { listServices } from '@/lib/services/queries';
 import { currentUser } from '@/lib/auth/session';
 import { getStore } from '@/lib/store';
 import { ProfileTicket } from '@/components/about/profile-ticket';
@@ -19,15 +20,21 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 export default async function HomePage({ searchParams }: { searchParams: SearchParams }) {
   const query = parseHomeQuery(await searchParams);
-  const user = await currentUser().catch(() => ({ state: 'guest' as const }));
+  const store = getStore();
+  // 로그인 확인을 기다리는 동안 필터·작성자도 같이 읽는다 (차례로 기다리지 않게)
+  const userP = currentUser().catch(() => ({ state: 'guest' as const }));
+  const filtersP = store.listFilters().catch(() => []);
+  const authorP = query.author ? store.getProfile(query.author).catch(() => null) : Promise.resolve(null);
+  // 만든 사람별 보기는 로그인과 상관없이 목록 조건이 정해지므로 바로 조회를 시작한다
+  if (query.author) void listServices(toListOptions(query, null)).catch(() => null);
+
+  const user = await userP;
   const memberId = user.state === 'member' ? user.profile.id : null;
   const options = toListOptions(query, memberId);
-  const store = getStore();
-
   const [filters, author, count] = await Promise.all([
-    store.listFilters().catch(() => []),
-    query.author ? store.getProfile(query.author).catch(() => null) : Promise.resolve(null),
-    store.listServices(options).then((l) => l.length).catch(() => null),
+    filtersP,
+    authorP,
+    listServices(options).then((l) => l.length).catch(() => null),
   ]);
 
   // 작성자가 About Us 에 있으면 그 사람의 프로필 티켓을 제목 옆에 붙인다

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link, { useLinkStatus } from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { characterSrc } from '@/lib/avatars/characters';
@@ -213,9 +213,9 @@ export function HangingTeam({ group, members, label, tag = 'SURFER', perRow = 5,
                           {m.services.map((s) => <li key={s.id}>{s.name}</li>)}
                         </ul>
                         {/* 개별 서비스 대신 이 사람의 서비스 모아보기로 보낸다 */}
-                        <Link className="hang-more" href={homeHref(EMPTY_QUERY, { author: m.id })} draggable={false}>
-                          <span>{m.displayName}님의 서비스 보기</span>
-                          <span aria-hidden="true">→</span>
+                        {/* 뒤집어 링크가 보이는 순간 화면을 미리 받아 둔다 (앞면일 때는 받지 않는다) */}
+                        <Link className="hang-more" href={homeHref(EMPTY_QUERY, { author: m.id })} prefetch={back ? true : false} draggable={false}>
+                          <MoreLabel name={m.displayName} />
                         </Link>
                       </>
                     ) : (
@@ -236,6 +236,17 @@ export function HangingTeam({ group, members, label, tag = 'SURFER', perRow = 5,
         })}
       </ul>
     </section>
+  );
+}
+
+/** 링크 글자: 누르면 화면이 바뀌기 전까지 바로 '여는 중'으로 바뀐다 */
+function MoreLabel({ name }: { name: string }) {
+  const { pending } = useLinkStatus();
+  return (
+    <>
+      <span>{pending ? '여는 중…' : `${name}님의 서비스 보기`}</span>
+      <span aria-hidden="true" className={pending ? 'hang-more-spin' : undefined}>{pending ? '' : '→'}</span>
+    </>
   );
 }
 

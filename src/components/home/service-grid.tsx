@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { listFilterMap, listServiceCards } from '@/lib/services/queries';
+import { listFilterMap, listServiceCards, listServices } from '@/lib/services/queries';
 import type { ListServicesOptions } from '@/lib/store/types';
 import { ServiceCard } from './service-card';
 import { EmptyFirst, GridError } from './grid-states';
@@ -19,7 +19,7 @@ export async function ServiceGrid({ options, retryHref, noResults, renderCount }
     [cards, filters, total] = await Promise.all([
       listServiceCards(options),
       listFilterMap(),
-      listServiceCards({}).then((all) => all.length),
+      listServices({}).then((all) => all.length),
     ]);
   } catch {
     return <div className="grid"><GridError retryHref={retryHref} /></div>;
