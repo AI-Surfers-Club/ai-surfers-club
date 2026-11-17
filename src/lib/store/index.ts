@@ -3,6 +3,7 @@ import type { AuthAdapter, DataStore } from './types';
 import { memoryStore } from './mock/memory-store';
 import { mockAuth } from './mock/mock-auth';
 import { createSupabaseAuth, createSupabaseStore } from './supabase';
+import { withCache } from './cached';
 
 export type AppMode = 'mock' | 'supabase';
 
@@ -12,9 +13,9 @@ export function appMode(): AppMode {
 
 export const isMockMode = () => appMode() === 'mock';
 
-/** 지금 모드의 데이터 저장소 */
+/** 지금 모드의 데이터 저장소 (읽기는 데이터 캐시를 거친다 — cached.ts) */
 export function getStore(): DataStore {
-  return isMockMode() ? memoryStore : createSupabaseStore();
+  return withCache(isMockMode() ? memoryStore : createSupabaseStore(), appMode());
 }
 
 /** 지금 모드의 로그인 어댑터 */
