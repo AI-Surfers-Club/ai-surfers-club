@@ -12,6 +12,7 @@ import { currentUser } from '@/lib/auth/session';
 import { getStore } from '@/lib/store';
 import { ProfileTicket } from '@/components/about/profile-ticket';
 import { defaultCharacter } from '@/lib/avatars/characters';
+import { LinkPending } from '@/components/layout/link-pending';
 import '@/components/home/home-tools.css';
 
 export const dynamic = 'force-dynamic';
@@ -25,8 +26,8 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
   const userP = currentUser().catch(() => ({ state: 'guest' as const }));
   const filtersP = store.listFilters().catch(() => []);
   const authorP = query.author ? store.getProfile(query.author).catch(() => null) : Promise.resolve(null);
-  // 만든 사람별 보기는 로그인과 상관없이 목록 조건이 정해지므로 바로 조회를 시작한다
-  if (query.author) void listServices(toListOptions(query, null)).catch(() => null);
+  // '내 서비스'가 아니면 목록 조건이 로그인과 상관없으므로 바로 조회를 시작한다
+  if (!query.mine || query.author) void listServices(toListOptions(query, null)).catch(() => null);
 
   const user = await userP;
   const memberId = user.state === 'member' ? user.profile.id : null;
@@ -52,7 +53,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
       korean
       eyebrow={
         <Link className="hero-back" href={homeHref(query, { author: null })}>
-          <span aria-hidden="true">←</span><span>전체 서비스</span>
+          <span aria-hidden="true">←</span><span>전체 서비스</span><LinkPending />
         </Link>
       }
       title={<>{author.displayName}님의<br />서비스</>}

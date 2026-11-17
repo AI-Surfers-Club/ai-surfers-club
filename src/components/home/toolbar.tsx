@@ -4,6 +4,7 @@ import type { Filter } from '@/lib/store/types';
 import { homeHref, type HomeQuery } from '@/lib/services/search';
 import { currentUser } from '@/lib/auth/session';
 import { FilterManager } from '@/components/admin/filter-manager';
+import { LinkPending } from '@/components/layout/link-pending';
 
 type Props = {
   query: HomeQuery;
@@ -23,15 +24,15 @@ export async function Toolbar({ query, filters, isMember, count, extra }: Props)
     <div className="toolbar" id="home-toolbar">
       {isMember && (
         <>
-          <Link className={`chip${query.mine ? ' on' : ''}`} href={homeHref(query, { mine: !query.mine })} aria-pressed={query.mine}>★ 내 서비스</Link>
+          <Link className={`chip${query.mine ? ' on' : ''}`} href={homeHref(query, { mine: !query.mine })} aria-pressed={query.mine}>★ 내 서비스<LinkPending /></Link>
           <span className="divider" aria-hidden="true" />
         </>
       )}
       <div className="chips" role="group" aria-label="필터">
-        <Link className={`chip${!query.filter ? ' on' : ''}`} href={homeHref(query, { filter: null })} aria-pressed={!query.filter}>전체</Link>
+        <Link className={`chip${!query.filter ? ' on' : ''}`} href={homeHref(query, { filter: null })} aria-pressed={!query.filter}>전체<LinkPending /></Link>
         {filters.map((f) => (
           <Link key={f.id} className={`chip${query.filter === f.id ? ' on' : ''}`} href={homeHref(query, { filter: f.id })} aria-pressed={query.filter === f.id}>
-            {f.name}
+            {f.name}<LinkPending />
           </Link>
         ))}
       </div>
@@ -41,8 +42,8 @@ export async function Toolbar({ query, filters, isMember, count, extra }: Props)
       <div className="result-meta">
         {count !== null && <span className="result-count" data-testid="result-count">서비스 {count}개</span>}
         <div className="seg" role="group" aria-label="정렬">
-          <Link className={query.sort === 'new' ? 'on' : ''} href={homeHref(query, { sort: 'new' })} aria-pressed={query.sort === 'new'}>최신순</Link>
-          <Link className={query.sort === 'name' ? 'on' : ''} href={homeHref(query, { sort: 'name' })} aria-pressed={query.sort === 'name'}>이름순</Link>
+          <Link className={query.sort === 'new' ? 'on' : ''} href={homeHref(query, { sort: 'new' })} aria-pressed={query.sort === 'new'}>최신순<LinkPending /></Link>
+          <Link className={query.sort === 'name' ? 'on' : ''} href={homeHref(query, { sort: 'name' })} aria-pressed={query.sort === 'name'}>이름순<LinkPending /></Link>
         </div>
       </div>
     </div>

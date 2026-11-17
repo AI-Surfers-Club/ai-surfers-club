@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { getStore } from '@/lib/store';
 import type { Filter, Profile, Service } from '@/lib/store/types';
 import { sanitizeRich } from '@/lib/richtext/sanitize';
@@ -10,10 +11,13 @@ export type ServiceDetail = {
   descriptionHtml: string;
 };
 
+/** 서비스 하나 (공유 미리보기와 본문이 같이 써도 한 번만 조회) */
+export const getService = cache((id: string): Promise<Service | null> => getStore().getService(id));
+
 /** 상세 화면 데이터. 없는 id면 null */
 export async function getServiceDetail(id: string): Promise<ServiceDetail | null> {
   const store = getStore();
-  const service = await store.getService(id);
+  const service = await getService(id);
   if (!service) return null;
   const [profile, allFilters] = await Promise.all([store.getProfile(service.authorId), store.listFilters()]);
   const byId = new Map(allFilters.map((f) => [f.id, f]));

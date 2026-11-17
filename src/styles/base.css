@@ -100,3 +100,13 @@ img { display: block; max-width: 100%; }
   display: block; background: currentColor;
   -webkit-mask: var(--crew) center / contain no-repeat; mask: var(--crew) center / contain no-repeat;
 }
+
+/* 링크를 누른 뒤 다음 화면을 기다리는 동안 (LinkPending, 헤더 칩 등) */
+.link-pending {
+  display: inline-block; width: 9px; height: 9px; margin-left: 6px; vertical-align: -1px; flex-shrink: 0;
+  border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%;
+  opacity: 0; animation: link-pending-in 0s .1s forwards, link-pending-spin .7s linear infinite;
+}
+@keyframes link-pending-in { to { opacity: 1; } }
+@keyframes link-pending-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .link-pending { animation: link-pending-in 0s .1s forwards; } }

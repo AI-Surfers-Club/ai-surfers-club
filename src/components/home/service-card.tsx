@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ServiceCardData } from '@/lib/services/queries';
 import { CardTilt } from './card-tilt';
+import { LinkPending } from '@/components/layout/link-pending';
 
 export function CoverImage({ name, src }: { name: string; src?: string }) {
   if (!src) return <div className="default-img serif" aria-hidden="true">{name.trim()[0] ?? '?'}</div>;
@@ -24,7 +25,7 @@ export function ServiceCard({ service, filterName }: { service: ServiceCardData;
             </Link>
             {author && (
               <Link className="card-author serif" href={`/?author=${author.id}`} data-testid="card-author">
-                {author.teamName} · {author.displayName}
+                {author.teamName} · {author.displayName}<LinkPending />
               </Link>
             )}
           </div>

@@ -1,4 +1,5 @@
 // 서버 전용: 지금 로그인한 사람과 권한
+import { cache } from 'react';
 import { redirect } from 'next/navigation';
 import { getAuth, getStore } from '@/lib/store';
 import type { Account, Profile } from '@/lib/store/types';
@@ -9,14 +10,17 @@ export type CurrentUser =
   | { state: 'pending'; account: Account }
   | { state: 'member'; account: Account; profile: Profile; admin: boolean };
 
-/** 로그인한 계정과 가입 정보. 로그인했지만 가입 전이면 'pending' */
-export async function currentUser(): Promise<CurrentUser> {
+/**
+ * 로그인한 계정과 가입 정보. 로그인했지만 가입 전이면 'pending'.
+ * 헤더·페이지·툴바가 각자 불러도 한 번 그리는 동안 Supabase 에는 한 번만 묻는다.
+ */
+export const currentUser = cache(async (): Promise<CurrentUser> => {
   const account = await getAuth().currentAccount();
   if (!account) return { state: 'guest' };
   const profile = await getStore().getProfile(account.id);
   if (!profile) return { state: 'pending', account };
   return { state: 'member', account, profile, admin: isAdminEmail(account.email) };
-}
+});
 
 export function isAdmin(email: string | null | undefined): boolean {
   return isAdminEmail(email);

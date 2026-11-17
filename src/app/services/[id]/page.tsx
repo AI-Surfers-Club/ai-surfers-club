@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { formatDate, getServiceDetail } from '@/lib/services/detail';
-import { getStore } from '@/lib/store';
+import { formatDate, getService, getServiceDetail } from '@/lib/services/detail';
 import { SITE_NAME, SITE_OG_IMAGE } from '@/lib/site';
 import { ImageGallery } from '@/components/detail/image-gallery';
 import { OwnerActions, SavedToast } from '@/components/detail/owner-actions';
 import { currentUser } from '@/lib/auth/session';
 import { canManage, deleteServiceAction } from '@/lib/services/edit';
+import { LinkPending } from '@/components/layout/link-pending';
 import '@/components/detail/detail.css';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 /** 공유 미리보기: 서비스 이름·한 줄 소개, 대표 이미지가 올린 사진이면 그 사진 (아니면 사이트 기본 이미지) */
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { id } = await params;
-  const s = await getStore().getService(id);
+  const s = await getService(id);
   if (!s) return {};
   const title = `${s.name} · ${SITE_NAME}`;
   const cover = s.images[0];
@@ -42,7 +42,7 @@ export default async function ServiceDetailPage({ params, searchParams }: { para
 
   return (
     <main className="main">
-      <Link className="back" href="/">← 목록으로</Link>
+      <Link className="back" href="/">← 목록으로<LinkPending /></Link>
       <section className="detail">
         <ImageGallery name={s.name} images={s.images} />
         <div>
@@ -51,7 +51,7 @@ export default async function ServiceDetailPage({ params, searchParams }: { para
           )}
           <h1 className="serif serif-ko">{s.name}</h1>
           <div className="byline">
-            {author && <Link href={`/?author=${author.id}`}>{author.teamName} · {author.displayName}</Link>}
+            {author && <Link href={`/?author=${author.id}`}>{author.teamName} · {author.displayName}<LinkPending /></Link>}
             <span className="date">{formatDate(s.createdAt)} 등록</span>
           </div>
           <p className="lead">{s.tagline}</p>

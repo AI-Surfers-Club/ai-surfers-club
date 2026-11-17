@@ -4,6 +4,7 @@ import { currentUser } from '@/lib/auth/session';
 import { getAuth } from '@/lib/store';
 import { LoginError } from '@/components/auth/login-error';
 import { ProfileMenu } from '@/components/profile/profile-menu';
+import { LinkPending } from './link-pending';
 
 /** 헤더 오른쪽: 로그인 상태에 따라 버튼이 바뀐다 */
 export async function HeaderActions() {
@@ -24,10 +25,10 @@ export async function HeaderActions() {
   return (
     <div className="nav">
       <Suspense fallback={null}><LoginError /></Suspense>
-      <Link className="pill hide-m" href="/about">About Us</Link>
+      <Link className="pill hide-m" href="/about">About Us<LinkPending /></Link>
       {user.state === 'member' ? (
         <>
-          <Link className="pill fill" href="/services/new">+ 서비스 등록</Link>
+          <Link className="pill fill" href="/services/new">+ 서비스 등록<LinkPending /></Link>
           <ProfileMenu displayName={user.profile.displayName} teamName={user.profile.teamName} admin={user.admin} profileId={user.profile.id} character={user.profile.character ?? null} />
         </>
       ) : (

@@ -245,7 +245,7 @@ function MoreLabel({ name }: { name: string }) {
   return (
     <>
       <span>{pending ? '여는 중…' : `${name}님의 서비스 보기`}</span>
-      <span aria-hidden="true" className={pending ? 'hang-more-spin' : undefined}>{pending ? '' : '→'}</span>
+      {pending ? <span className="link-pending" aria-hidden="true" /> : <span aria-hidden="true">→</span>}
     </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
 type Chip = { label: string; href: string; on: boolean };
@@ -12,6 +12,8 @@ type Chip = { label: string; href: string; on: boolean };
 export function HeaderChips({ chips }: { chips: Chip[] }) {
   const router = useRouter();
   const [shown, setShown] = useState(false);
+  const [pending, start] = useTransition();
+  const [picked, setPicked] = useState<string | null>(null);
   const [box, setBox] = useState<{ left: number; right: number }>({ left: 240, right: 320 });
 
   useEffect(() => {
@@ -36,7 +38,8 @@ export function HeaderChips({ chips }: { chips: Chip[] }) {
   }, []);
 
   const pick = (href: string) => {
-    router.push(href, { scroll: false });
+    setPicked(href);
+    start(() => router.push(href, { scroll: false }));
     const grid = document.querySelector('[data-testid="service-grid"]') as HTMLElement | null;
     const offset = window.innerWidth < 640 ? 110 : 70;
     if (grid) window.scrollTo({ top: grid.getBoundingClientRect().top + window.scrollY - offset });
@@ -52,6 +55,7 @@ export function HeaderChips({ chips }: { chips: Chip[] }) {
       {chips.map((c) => (
         <button key={c.href + c.label} type="button" className={`chip${c.on ? ' on' : ''}`} tabIndex={shown ? 0 : -1} onClick={() => pick(c.href)}>
           {c.label}
+          {pending && picked === c.href && <span className="link-pending" aria-hidden="true" />}
         </button>
       ))}
     </div>
